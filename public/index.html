@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Anki web</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <main class="page">
+      <section class="panel hero">
+        <p class="eyebrow">Anki web</p>
+        <h1>Anki web</h1>
+        <p class="intro">
+          自动生成记忆卡片，使用AI帮助你记忆
+        </p>
+      </section>
+
+      <section class="panel" id="setup-panel">
+        <div class="section-title">
+          <h2>练习设置</h2>
+          <span>Step 1</span>
+        </div>
+
+        <label class="field">
+          <span>目标语言</span>
+          <select id="target-language-select">
+            <option value="日语" selected>日语</option>
+            <option value="英语">英语</option>
+            <option value="法语">法语</option>
+            <option value="西班牙语">西班牙语</option>
+            <option value="custom">手动输入</option>
+          </select>
+        </label>
+
+        <label class="field hidden" id="custom-language-field">
+          <span>手动输入语言</span>
+          <input id="custom-language-input" type="text" placeholder="例如 德语" />
+        </label>
+
+        <label class="field">
+          <span>学习材料（每行一句目标语言原句）</span>
+          <textarea
+            id="materials-input"
+            rows="10"
+            placeholder="こんにちは。
+今日は天気がいいです。
+昨日、図書館に行きました。"
+          ></textarea>
+        </label>
+
+        <button id="start-button" class="primary-button">生成中文提示并开始</button>
+      </section>
+
+      <section class="panel hidden" id="practice-panel">
+        <div class="section-title">
+          <h2>练习中</h2>
+          <span id="progress-text">1 / 1</span>
+        </div>
+
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <p class="prompt-label">中文提示</p>
+            <button id="toggle-source-button" class="icon-button" type="button" aria-label="显示原文" aria-pressed="false">
+              <svg class="eye-icon eye-icon-closed" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M3 3l18 18" />
+                <path d="M10.6 10.7a2 2 0 0 0 2.7 2.7" />
+                <path d="M9.4 5.5A10.7 10.7 0 0 1 12 5c5 0 8.8 3.2 10 7-0.5 1.5-1.4 2.9-2.6 4" />
+                <path d="M6.5 6.7C4.7 8 3.4 9.8 2 12c1.2 3.8 5 7 10 7 1.7 0 3.2-.4 4.6-1" />
+              </svg>
+              <svg class="eye-icon eye-icon-open hidden" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+            </button>
+          </div>
+          <p id="translation-text" class="translation-text"></p>
+          <p id="source-text" class="source-text hidden"></p>
+        </div>
+
+        <label class="field">
+          <span class="field-spacer" aria-hidden="true">&nbsp;</span>
+          <textarea id="answer-input" rows="4" placeholder="在这里输入原句"></textarea>
+        </label>
+
+        <div class="actions">
+          <button id="check-button" class="primary-button">提交并检查</button>
+          <button id="next-button" class="primary-button hidden">下一句</button>
+        </div>
+
+        <section id="result-card" class="result-card hidden"></section>
+      </section>
+
+      <section class="panel hidden" id="summary-panel">
+        <div class="section-title">
+          <h2>练习完成</h2>
+          <span>Summary</span>
+        </div>
+
+        <div class="summary-grid">
+          <div class="summary-item">
+            <p class="summary-label">总题数</p>
+            <p id="summary-total" class="summary-value">0</p>
+          </div>
+          <div class="summary-item">
+            <p class="summary-label">平均分</p>
+            <p id="summary-average" class="summary-value">0</p>
+          </div>
+          <div class="summary-item">
+            <p class="summary-label">满分题数</p>
+            <p id="summary-perfect" class="summary-value">0</p>
+          </div>
+        </div>
+
+        <p id="summary-message" class="summary-message"></p>
+        <div class="summary-actions">
+          <button id="retry-wrong-button" class="primary-button hidden">练习错题</button>
+          <button id="restart-button" class="primary-button">重新开始</button>
+        </div>
+      </section>
+    </main>
+
+    <script src="/app.js"></script>
+  </body>
+</html>
