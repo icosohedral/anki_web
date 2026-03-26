@@ -11,56 +11,42 @@
       <section class="panel hero">
         <p class="eyebrow">Anki web</p>
         <h1>Anki web</h1>
-        <p class="intro">
-          自动生成记忆卡片，使用AI帮助你记忆
-        </p>
+        <p id="hero-intro" class="intro"></p>
       </section>
 
       <section class="panel" id="setup-panel">
         <div class="section-title">
-          <h2>练习设置</h2>
-          <span>Step 1</span>
+          <h2 id="setup-title"></h2>
+          <span id="setup-step"></span>
         </div>
 
         <label class="field">
-          <span>目标语言</span>
-          <select id="target-language-select">
-            <option value="日语" selected>日语</option>
-            <option value="英语">英语</option>
-            <option value="法语">法语</option>
-            <option value="西班牙语">西班牙语</option>
-            <option value="custom">手动输入</option>
-          </select>
+          <span id="target-language-label"></span>
+          <select id="target-language-select"></select>
         </label>
 
         <label class="field hidden" id="custom-language-field">
-          <span>手动输入语言</span>
-          <input id="custom-language-input" type="text" placeholder="例如 德语" />
+          <span id="custom-language-label"></span>
+          <input id="custom-language-input" type="text" />
         </label>
 
         <label class="field">
-          <span>学习材料（每行一句目标语言原句）</span>
-          <textarea
-            id="materials-input"
-            rows="10"
-            placeholder="こんにちは。
-今日は天気がいいです。
-昨日、図書館に行きました。"
-          ></textarea>
+          <span id="materials-label"></span>
+          <textarea id="materials-input" rows="10"></textarea>
         </label>
 
-        <button id="start-button" class="primary-button">生成中文提示并开始</button>
+        <button id="start-button" class="primary-button"></button>
       </section>
 
       <section class="panel hidden" id="practice-panel">
         <div class="section-title">
-          <h2>练习中</h2>
+          <h2 id="practice-title"></h2>
           <span id="progress-text">1 / 1</span>
         </div>
 
         <div class="prompt-card">
           <div class="prompt-header">
-            <p class="prompt-label">中文提示</p>
+            <p id="prompt-label" class="prompt-label"></p>
             <button id="toggle-source-button" class="icon-button" type="button" aria-label="显示原文" aria-pressed="false">
               <svg class="eye-icon eye-icon-closed" viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M3 3l18 18" />
@@ -80,12 +66,12 @@
 
         <label class="field">
           <span class="field-spacer" aria-hidden="true">&nbsp;</span>
-          <textarea id="answer-input" rows="4" placeholder="在这里输入原句"></textarea>
+          <textarea id="answer-input" rows="4"></textarea>
         </label>
 
         <div class="actions">
-          <button id="check-button" class="primary-button">提交并检查</button>
-          <button id="next-button" class="primary-button hidden">下一句</button>
+          <button id="check-button" class="primary-button"></button>
+          <button id="next-button" class="primary-button hidden"></button>
         </div>
 
         <section id="result-card" class="result-card hidden"></section>
@@ -93,32 +79,57 @@
 
       <section class="panel hidden" id="summary-panel">
         <div class="section-title">
-          <h2>练习完成</h2>
-          <span>Summary</span>
+          <h2 id="summary-title"></h2>
+          <span id="summary-step"></span>
         </div>
 
         <div class="summary-grid">
           <div class="summary-item">
-            <p class="summary-label">总题数</p>
+            <p id="summary-total-label" class="summary-label"></p>
             <p id="summary-total" class="summary-value">0</p>
           </div>
           <div class="summary-item">
-            <p class="summary-label">平均分</p>
+            <p id="summary-average-label" class="summary-label"></p>
             <p id="summary-average" class="summary-value">0</p>
           </div>
           <div class="summary-item">
-            <p class="summary-label">满分题数</p>
+            <p id="summary-perfect-label" class="summary-label"></p>
             <p id="summary-perfect" class="summary-value">0</p>
           </div>
         </div>
 
         <p id="summary-message" class="summary-message"></p>
         <div class="summary-actions">
-          <button id="retry-wrong-button" class="primary-button hidden">练习错题</button>
-          <button id="restart-button" class="primary-button">重新开始</button>
+          <button id="retry-wrong-button" class="primary-button hidden"></button>
+          <button id="restart-button" class="primary-button"></button>
         </div>
       </section>
     </main>
+
+    <button id="settings-toggle-button" class="settings-fab" type="button" aria-expanded="false" aria-controls="settings-panel">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 8.7A3.3 3.3 0 1 0 12 15.3A3.3 3.3 0 1 0 12 8.7Z" />
+        <path d="M19.4 15a1 1 0 0 0 .2 1.1l.1.1a1.2 1.2 0 0 1 0 1.7l-1.6 1.6a1.2 1.2 0 0 1-1.7 0l-.1-.1a1 1 0 0 0-1.1-.2 1 1 0 0 0-.6.9V20a1.2 1.2 0 0 1-1.2 1.2h-2.2A1.2 1.2 0 0 1 10 20v-.2a1 1 0 0 0-.6-.9 1 1 0 0 0-1.1.2l-.1.1a1.2 1.2 0 0 1-1.7 0l-1.6-1.6a1.2 1.2 0 0 1 0-1.7l.1-.1a1 1 0 0 0 .2-1.1 1 1 0 0 0-.9-.6H4A1.2 1.2 0 0 1 2.8 13v-2.2A1.2 1.2 0 0 1 4 9.6h.2a1 1 0 0 0 .9-.6 1 1 0 0 0-.2-1.1l-.1-.1a1.2 1.2 0 0 1 0-1.7l1.6-1.6a1.2 1.2 0 0 1 1.7 0l.1.1a1 1 0 0 0 1.1.2 1 1 0 0 0 .6-.9V4A1.2 1.2 0 0 1 11.2 2.8h2.2A1.2 1.2 0 0 1 14.6 4v.2a1 1 0 0 0 .6.9 1 1 0 0 0 1.1-.2l.1-.1a1.2 1.2 0 0 1 1.7 0l1.6 1.6a1.2 1.2 0 0 1 0 1.7l-.1.1a1 1 0 0 0-.2 1.1 1 1 0 0 0 .9.6h.2A1.2 1.2 0 0 1 21.2 10.8V13a1.2 1.2 0 0 1-1.2 1.2h-.2a1 1 0 0 0-.9.8Z" />
+      </svg>
+    </button>
+
+    <aside id="settings-panel" class="settings-panel hidden" aria-hidden="true">
+      <div class="settings-header">
+        <h3 id="settings-title"></h3>
+        <button id="settings-close-button" class="settings-close-button" type="button" aria-label="Close">×</button>
+      </div>
+
+      <label class="field">
+        <span id="ui-language-label"></span>
+        <select id="ui-language-select">
+          <option value="zh">简体中文</option>
+          <option value="en">English</option>
+          <option value="ja">日本語</option>
+          <option value="fr">Français</option>
+          <option value="es">Español</option>
+        </select>
+      </label>
+    </aside>
 
     <script src="/app.js"></script>
   </body>

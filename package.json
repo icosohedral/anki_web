@@ -4,12 +4,13 @@
   "private": true,
   "description": "Language recall trainer with AI answer checking",
   "scripts": {
+    "setup:dev": "node scripts/setup-dev-vars.mjs",
     "dev": "wrangler pages dev public",
     "deploy": "wrangler pages deploy public"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20260325.0",
-    "typescript": "^5.8.2",
-    "wrangler": "^4.8.0"
+    "@cloudflare/workers-types": "latest",
+    "typescript": "latest",
+    "wrangler": "latest"
   }
 }
