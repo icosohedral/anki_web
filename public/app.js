@@ -660,11 +660,24 @@ function openSettingsPanel() {
 }
 
 function closeSettingsPanel() {
+  closeSettingsPanelWithMode("animated");
+}
+
+function closeSettingsPanelImmediately() {
+  closeSettingsPanelWithMode("instant");
+}
+
+function closeSettingsPanelWithMode(mode) {
   state.isSettingsOpen = false;
   document.body.classList.remove("settings-open");
   settingsPanel.classList.remove("settings-visible");
   settingsPanel.setAttribute("aria-hidden", "true");
   settingsToggleButton.setAttribute("aria-expanded", "false");
+
+  if (mode === "instant") {
+    settingsPanel.classList.add("hidden");
+    return;
+  }
 
   window.setTimeout(() => {
     if (!state.isSettingsOpen) {
@@ -677,6 +690,7 @@ function changeUiLanguage() {
   state.uiLanguage = uiLanguageSelect.value;
   localStorage.setItem(UI_STORAGE_KEY, state.uiLanguage);
   renderUi();
+  closeSettingsPanelImmediately();
 }
 
 function renderUi() {
