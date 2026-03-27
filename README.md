@@ -1,47 +1,80 @@
-# Anki web
+# Anki Web
 
-这个项目现在已经改成适合部署到 Cloudflare Pages 的结构：
+Anki Web is a lightweight browser-based language recall trainer. Paste study sentences, generate prompt cards with an AI model, and practice recalling the original sentence with AI-assisted scoring and feedback.
 
-- 静态前端放在 [public/index.html](/Users/icosohedral/Desktop/projects/anki_web/public/index.html)、[public/app.js](/Users/icosohedral/Desktop/projects/anki_web/public/app.js)、[public/style.css](/Users/icosohedral/Desktop/projects/anki_web/public/style.css)
-- 后端 API 改成 Cloudflare Pages Functions TypeScript：
-  - [functions/api/prepare.ts](/Users/icosohedral/Desktop/projects/anki_web/functions/api/prepare.ts)
-  - [functions/api/check.ts](/Users/icosohedral/Desktop/projects/anki_web/functions/api/check.ts)
-- 公共 AI 调用逻辑在 [functions/_lib/ai.ts](/Users/icosohedral/Desktop/projects/anki_web/functions/_lib/ai.ts)
+The project is built for Cloudflare Pages:
 
-## 本地开发
+- Static frontend in `public/`
+- Serverless API endpoints in `functions/`
+- Configurable through environment variables for any OpenAI-compatible chat API
 
-1. 安装依赖
+## Features
+
+- Turn raw study material into practice cards automatically
+- Generate prompts in a separate helper language
+- Score free-form answers with semantic tolerance instead of exact string matching
+- Retry only incorrect items after a session
+- Switch the UI between Chinese, English, Japanese, French, and Spanish
+- Deploy as a simple static site plus Cloudflare Pages Functions
+
+## Demo Flow
+
+1. Paste one target-language sentence per line
+2. Choose the target language
+3. Generate prompt cards
+4. Recall the original sentence from the prompt
+5. Submit your answer for AI feedback and scoring
+6. Review your summary and retry mistakes
+
+## Tech Stack
+
+- Frontend: vanilla HTML, CSS, and JavaScript
+- Backend: Cloudflare Pages Functions with TypeScript
+- AI layer: OpenAI-compatible Chat Completions API
+
+## Quick Start
+
+### 1. Install dependencies
 
 ```bash
 npm install
 ```
 
-2. 新建本地环境变量文件
+### 2. Create local environment variables
+
+```bash
+npm run setup:dev
+```
+
+This creates `.dev.vars` from `.dev.vars.example`.
+
+You can also copy it manually:
 
 ```bash
 cp .dev.vars.example .dev.vars
 ```
 
-3. 编辑 `.dev.vars`
+### 3. Fill in `.dev.vars`
 
 ```env
-AI_API_KEY=your_deepseek_key_here
+AI_API_KEY=your_api_key_here
 AI_BASE_URL=https://api.deepseek.com/v1
 AI_MODEL=deepseek-chat
 ```
 
-4. 启动本地开发
+`AI_BASE_URL` and `AI_MODEL` are optional if you want to use the built-in defaults.
+
+### 4. Start local development
 
 ```bash
 npm run dev
 ```
 
-## 部署到 Cloudflare Pages
+## Deployment
 
-1. 把仓库推到 GitHub
-2. 在 Cloudflare Pages 创建项目并连接这个仓库
-3. Build output directory 设为 `public`
-4. 在 Pages 项目里配置环境变量：
+Deploy to Cloudflare Pages with `public` as the build output directory.
+
+Set these environment variables in your Pages project:
 
 ```text
 AI_API_KEY
@@ -49,15 +82,50 @@ AI_BASE_URL
 AI_MODEL
 ```
 
-推荐值：
+Example values:
 
 ```text
 AI_BASE_URL=https://api.deepseek.com/v1
 AI_MODEL=deepseek-chat
 ```
 
-## 安全
+## Project Structure
 
-- 不要把真实 API key 放进 `config.json`
-- 不要把 `.dev.vars` 提交到仓库
-- 你之前那个 key 已经暴露过，发布前应该先旋转
+```text
+public/
+  index.html      Frontend shell
+  app.js          Client-side app logic
+  style.css       Styling
+
+functions/
+  api/prepare.ts  Generates prompt cards from study material
+  api/check.ts    Scores user answers and returns feedback
+  _lib/ai.ts      Shared AI request utilities
+
+scripts/
+  setup-dev-vars.mjs  Creates .dev.vars from the example file
+```
+
+## Configuration
+
+Environment variables used by the app:
+
+- `AI_API_KEY`: API key for your AI provider
+- `AI_BASE_URL`: Base URL for an OpenAI-compatible API
+- `AI_MODEL`: Chat model name
+
+Defaults in the backend:
+
+- `AI_BASE_URL=https://api.deepseek.com/v1`
+- `AI_MODEL=deepseek-chat`
+
+## Security
+
+- Never commit real API keys
+- Keep `.dev.vars`, `.env`, and other local config files out of version control
+- Rotate any key that has ever been stored in plaintext or shared accidentally
+
+## Notes
+
+- This project currently uses AI-based prompt generation and answer evaluation rather than deterministic grading
+- The backend expects an OpenAI-compatible `/chat/completions` interface with JSON response support
