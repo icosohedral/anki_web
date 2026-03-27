@@ -2,6 +2,9 @@
 
 Anki Web is a lightweight browser-based language recall trainer. Paste study sentences, generate prompt cards with an AI model, and practice recalling the original sentence with AI-assisted scoring and feedback.
 
+<img width="2926" height="1580" alt="image" src="https://github.com/user-attachments/assets/d5a29c9e-36a7-4dbe-9e53-d0990da98195" />
+
+
 The project is built for Cloudflare Pages:
 
 - Static frontend in `public/`
